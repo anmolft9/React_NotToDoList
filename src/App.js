@@ -12,8 +12,11 @@ function App() {
   const total = taskList.reduce((acc, item) => acc + +item.hr, 0);
 
   const addTask = (task) => {
+    // console.log(task);
     if (total + +task.hr > weeklyHr) {
+      // console.log("here");
       // return console.log("sorry");
+      // return alert("sorry");
     }
     setTaskList([...taskList, task]);
     // console.log(task);
