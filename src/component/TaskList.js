@@ -30,7 +30,7 @@ export const TaskList = ({ title, arrow, list = [], switchTask }) => {
                 <td>
                   {arrow === "right" ? (
                     <Button
-                      onClick={() => switchTask(item.id, "bad")}
+                      onClick={() => switchTask(item.id, "bad")} //sending the name as well
                       variant="success"
                     >
                       <i className="fa-solid fa-arrow-right"></i>
