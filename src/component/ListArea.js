@@ -2,7 +2,14 @@ import React from "react";
 import { Col, Row } from "react-bootstrap";
 import { TaskList } from "./TaskList";
 
-export const ListArea = ({ taskList, switchTask, total }) => {
+export const ListArea = ({
+  taskList,
+  switchTask,
+  total,
+  handleOnCheck,
+
+  ids,
+}) => {
   //only the entry list item
   //   console.log(taskList);
 
@@ -18,14 +25,24 @@ export const ListArea = ({ taskList, switchTask, total }) => {
       <Row>
         <Col>
           <TaskList
+            name="entry"
             title="entryList"
             arrow="right"
             list={entryList}
             switchTask={switchTask}
+            handleOnCheck={handleOnCheck}
+            ids={ids}
           />
         </Col>
         <Col>
-          <TaskList title="badList" list={badList} switchTask={switchTask} />
+          <TaskList
+            name="bad"
+            title="badList"
+            list={badList}
+            switchTask={switchTask}
+            handleOnCheck={handleOnCheck} //for the delete feature passing the id
+            ids={ids}
+          />
           <div className="text-end">Total time: {total} hrs</div>
           <div className="">you could have saved {badHrs} hrs</div>
         </Col>

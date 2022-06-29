@@ -3,7 +3,15 @@ import Table from "react-bootstrap/Table";
 import Form from "react-bootstrap/Form";
 import { Button } from "react-bootstrap";
 
-export const TaskList = ({ title, arrow, list = [], switchTask }) => {
+export const TaskList = ({
+  title,
+  arrow,
+  list = [],
+  switchTask,
+  handleOnCheck,
+  name,
+  ids,
+}) => {
   //   console.log(switchTask);
   return (
     <div>
@@ -12,7 +20,12 @@ export const TaskList = ({ title, arrow, list = [], switchTask }) => {
         <thead>
           <tr>
             <th>
-              <Form.Check type="checkbox" label="" />
+              <Form.Check
+                type="checkbox"
+                label=""
+                value={name}
+                onChange={handleOnCheck}
+              />
             </th>
             <th>Task</th>
             <th>Hours</th>
@@ -24,6 +37,16 @@ export const TaskList = ({ title, arrow, list = [], switchTask }) => {
             ///the template to use on the todo list displaying through map
             return (
               <tr>
+                <td>
+                  <Form.Check
+                    type="checkbox"
+                    label=""
+                    value={item.id}
+                    checked={ids.includes(item.id)}
+                    onChange={handleOnCheck}
+                  />
+                </td>
+
                 <td>{item.task}</td>
                 <td>{item.hr}</td>
                 <td>2 hours</td>
