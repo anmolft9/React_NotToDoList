@@ -5,7 +5,12 @@ import { TaskForm } from "./component/TaskForm";
 import { ListArea } from "./component/ListArea";
 import { useState, useEffect } from "react";
 import { Button } from "react-bootstrap";
-import { fetchTasks, postTask } from "./helpers/axiosHelper";
+import {
+  deleteTask,
+  fetchTasks,
+  postTask,
+  switchServerTask,
+} from "./helpers/axiosHelper";
 
 const weeklyHr = 7 * 24;
 
@@ -49,17 +54,20 @@ function App() {
   };
 
   ///switch the list function
-  const switchTask = (id, type) => {
+  const switchTask = async (_id, type) => {
     // console.log(i, type);
-    const switchedArg = taskList.map((item) => {
-      ///mapping the tasklist and check
-      if (item.id === id) {
-        item.type = type;
-      }
-      return item;
-    });
-    setTaskList(switchedArg);
+    // const switchedArg = taskList.map((item) => {
+    //   ///mapping the tasklist and check
+    //   if (item._id === _id) {
+    //     item.type = type;
+    //   }
+    //   return item;
+    // });
+    // setTaskList(switchedArg);
+    const data = await switchServerTask({ _id, type });
+    data.status === "success" && getTaskFromServer();
   };
+  // console.log(taskList);
   // console.log(taskList);
 
   ///handleOnCheck for checkbox
@@ -70,9 +78,11 @@ function App() {
     if (value === "entry" || value === "bad") {
       let toDeleteIds = [];
       taskList.forEach((item) => {
+        // console.log(taskList);
         if (item.type === value) {
-          toDeleteIds.push(item.id);
+          toDeleteIds.push(item._id);
         }
+        // console.log(toDeleteIds);
       });
       //if ticked add all ids ohterwose take them out
       if (checked) {
@@ -86,7 +96,7 @@ function App() {
         setIds([...ids, ...toDeleteIds]);
       } else {
         //remove all entry list ids
-        const tempArgs = ids.filter((id) => !toDeleteIds.includes(id));
+        const tempArgs = ids.filter((_id) => !toDeleteIds.includes(_id));
         setIds(tempArgs);
       }
       return;
@@ -104,14 +114,25 @@ function App() {
     // console.log(ids);
   };
 
-  const handleOnDelete = () => {
+  const handleOnDelete = async () => {
     // console.log("deleting");
     if (!window.confirm("you sure?")) {
       return;
     }
-    const tempArg = taskList.filter((item) => !ids.includes(item.id));
-    setTaskList(tempArg);
-    setIds([]);
+    // console.log(deleteTask);
+
+    const data = await deleteTask(ids);
+
+    if (data.status === "success") {
+      getTaskFromServer();
+      setIds([]);
+    }
+    // console.log(ids);
+    // data.status === "success" && deleteTask(data.result);
+
+    // const tempArg = taskList.filter((item) => !ids.includes(item._id));
+    // setTaskList(tempArg);
+    // setIds([]);
   };
   // console.log(ids);
 
