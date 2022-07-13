@@ -5,7 +5,7 @@ import { TaskForm } from "./component/TaskForm";
 import { ListArea } from "./component/ListArea";
 import { useState, useEffect } from "react";
 import { Button } from "react-bootstrap";
-import { fetchTasks } from "./helpers/axiosHelper";
+import { fetchTasks, postTask } from "./helpers/axiosHelper";
 
 const weeklyHr = 7 * 24;
 
@@ -21,13 +21,14 @@ function App() {
 
   const getTaskFromServer = async () => {
     const data = await fetchTasks();
-    setTaskList(data.result);
+
+    data.status === "success" && setTaskList(data.result);
   };
 
   ///////////////////////////////////////////////////////////////
   const total = taskList.reduce((acc, item) => acc + +item.hr, 0);
 
-  const addTask = (task) => {
+  const addTask = async (task) => {
     // console.log(task);
     if (total + +task.hr > weeklyHr) {
       // console.log("here");
@@ -38,7 +39,12 @@ function App() {
     // setTaskList([...taskList, task]);
 
     ///snd the data to the server
-    console.log(task);
+    const result = await postTask(task);
+    // console.log(result);
+
+    result.status === "success" && getTaskFromServer();
+    ///the data from handle on submit
+
     // console.log(task);
   };
 
