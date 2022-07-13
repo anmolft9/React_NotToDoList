@@ -34,7 +34,11 @@ function App() {
       // return console.log("sorry");
       // return alert("sorry");
     }
-    setTaskList([...taskList, task]);
+
+    // setTaskList([...taskList, task]);
+
+    ///snd the data to the server
+    console.log(task);
     // console.log(task);
   };
 

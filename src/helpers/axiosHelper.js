@@ -15,3 +15,15 @@ export const fetchTasks = async () => {
     };
   }
 };
+
+export const postTask = async (obj) => {
+  try {
+    const { data } = await axios.post(apiEp, obj);
+    return data;
+  } catch (error) {
+    return {
+      status: "error",
+      message: error.message,
+    };
+  }
+};
