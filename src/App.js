@@ -3,8 +3,9 @@ import "./App.css";
 import { Container } from "react-bootstrap";
 import { TaskForm } from "./component/TaskForm";
 import { ListArea } from "./component/ListArea";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Button } from "react-bootstrap";
+import { fetchTasks } from "./helpers/axiosHelper";
 
 const weeklyHr = 7 * 24;
 
@@ -12,6 +13,18 @@ function App() {
   const [taskList, setTaskList] = useState([]);
   const [ids, setIds] = useState([]);
 
+  ///
+  useEffect(() => {
+    /////
+    getTaskFromServer();
+  }, []);
+
+  const getTaskFromServer = async () => {
+    const data = await fetchTasks();
+    setTaskList(data.result);
+  };
+
+  ///////////////////////////////////////////////////////////////
   const total = taskList.reduce((acc, item) => acc + +item.hr, 0);
 
   const addTask = (task) => {
@@ -71,7 +84,7 @@ function App() {
     if (checked) {
       //add indivdiual item id
       setIds([...ids, value]);
-      console.log(ids);
+      // console.log(ids);
     } else {
       //removing indivdiual item id
       const removeIds = ids.filter((item) => item !== value);

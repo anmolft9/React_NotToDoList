@@ -34,6 +34,7 @@ export const ListArea = ({
             ids={ids}
           />
         </Col>
+
         <Col>
           <TaskList
             name="bad"
@@ -43,9 +44,10 @@ export const ListArea = ({
             handleOnCheck={handleOnCheck} //for the delete feature passing the id
             ids={ids}
           />
-          <div className="text-end">Total time: {total} hrs</div>
+
           <div className="">you could have saved {badHrs} hrs</div>
         </Col>
+        <div className="text-end">Total time: {total} hrs</div>
       </Row>
     </div>
   );
